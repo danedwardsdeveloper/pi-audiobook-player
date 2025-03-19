@@ -6,9 +6,8 @@ import './styles.tailwind.css'
 import type { ReactNode } from 'react'
 
 export const metadata: Metadata = {
-	title: `Dan's Next.js Configuration`,
+	title: 'Pi Audiobook Player',
 	metadataBase: new URL(dynamicBaseURL),
-	description: 'Site description',
 	alternates: {
 		canonical: dynamicBaseURL,
 	},
