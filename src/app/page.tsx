@@ -1,5 +1,5 @@
 import { type Audiobook, temporaryAudiobooks } from '@/library/constants'
-import { formatList } from '@/library/utilities/client'
+import { formatList } from '@/library/utilities/browser'
 import Image from 'next/image'
 import Link from 'next/link'
 

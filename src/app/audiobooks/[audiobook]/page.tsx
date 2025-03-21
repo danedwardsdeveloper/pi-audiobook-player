@@ -1,7 +1,7 @@
 import ChapterProgressBars from '@/components/ChapterProgressBars'
 import PlayerControls from '@/components/PlayerControls'
 import { type TitleSlug, getAudiobookBySlug } from '@/library/constants'
-import { formatList } from '@/library/utilities/client'
+import { formatList } from '@/library/utilities/browser'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
