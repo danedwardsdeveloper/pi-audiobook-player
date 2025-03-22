@@ -1,16 +1,11 @@
 import Providers from '@/components/Providers'
-import { dynamicBaseURL } from '@/library/environment/publicVariables'
 import type { Metadata, Viewport } from 'next'
 
 import './styles.tailwind.css'
 import type { ReactNode } from 'react'
 
 export const metadata: Metadata = {
-	title: 'Pi Audiobook Player',
-	metadataBase: new URL(dynamicBaseURL),
-	alternates: {
-		canonical: dynamicBaseURL,
-	},
+	title: 'Audiobook Player',
 }
 
 export const viewport: Viewport = {
