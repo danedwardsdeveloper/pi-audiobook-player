@@ -1,9 +1,5 @@
-import logger from './library/logger'
-
-import { isDevelopment } from './library/environment/publicVariables'
+import { testDatabaseConnection } from './library/database/connection'
 
 export function register() {
-	if (isDevelopment) {
-		logger.info('src/instrumentation: register function called')
-	}
+	testDatabaseConnection()
 }
