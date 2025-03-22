@@ -1,11 +1,10 @@
 import type { LogLevel, LogVerb } from '@/types'
 import { browserColours, logLevels, serverColors } from './constants'
-import { browserLogLevel, serverLogLevel } from './environment/publicVariables'
 
 const isServer = typeof window === 'undefined'
 
 const shouldLog = (logLevel: LogLevel) => {
-	const currentLevel = isServer ? serverLogLevel : browserLogLevel
+	const currentLevel: LogLevel = isServer ? 'level5debug' : 'level5debug'
 	return logLevels[logLevel] <= logLevels[currentLevel]
 }
 
