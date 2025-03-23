@@ -1,12 +1,12 @@
+import { readdir } from 'node:fs/promises'
 import path from 'node:path'
 import logger from '@/library/logger'
-import { readDirectory } from './fileSystem'
 
 export async function getTracks(folderName: string): Promise<string[]> {
 	const folderPath = path.join(process.cwd(), 'public/media', folderName)
 
 	try {
-		const files = await readDirectory(folderPath)
+		const files = await readdir(folderPath)
 
 		const audioFiles = files.filter((file) => {
 			const extension = path.extname(file).toLowerCase()

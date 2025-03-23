@@ -1,14 +1,14 @@
+import { readFile, readdir } from 'node:fs/promises'
 import path from 'node:path'
 import logger from '@/library/logger'
 import type { PhotoData } from '@/types'
 import sharp from 'sharp'
-import { readDirectory, readFile } from './fileSystem'
 
 export async function getPhoto(folderName: string): Promise<PhotoData | null> {
 	const folderPath = path.join(process.cwd(), 'public/media', folderName)
 
 	try {
-		const files = await readDirectory(folderPath)
+		const files = await readdir(folderPath)
 
 		const photoFile = files.find((file) => {
 			const extension = path.extname(file).toLowerCase()
