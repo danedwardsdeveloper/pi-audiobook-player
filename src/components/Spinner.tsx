@@ -1,11 +1,11 @@
 import { mergeClasses } from '@/library/utilities/browser'
 
 interface Props {
-	colour?: 'text-blue-600 dark:text-blue-400' | 'text-white dark:text-blue-300'
+	colour?: 'text-orange-600'
 	size?: 'size-5' | 'size-7'
 }
 
-export default function Spinner({ colour = 'text-blue-600 dark:text-blue-400', size = 'size-7' }: Props) {
+export default function Spinner({ colour = 'text-orange-600', size = 'size-7' }: Props) {
 	return (
 		<svg className={mergeClasses('animate-spin', size, colour)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 			<title>Loading spinner</title>

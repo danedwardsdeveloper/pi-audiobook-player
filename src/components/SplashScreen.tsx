@@ -30,19 +30,17 @@ export default function SplashScreen() {
 		<div
 			data-component="SplashScreen"
 			className={mergeClasses(
-				'fixed inset-0 flex h-full flex-col',
-				'z-50',
-				'flex flex-col items-center justify-center',
-				'bg-slate-50 dark:bg-gray-900',
-				'transition-opacity duration-500',
+				'fixed inset-0 h-full z-50 flex flex-col items-center justify-center bg-orange-50 transition-opacity duration-500',
 				showSplash ? 'opacity-100' : 'pointer-events-none opacity-0',
 			)}
 		>
 			<Spinner />
-			<div className="absolute bottom-24">
-				<Image src={icon} alt="Audiobook Player icon" height={80} width={80} />
+			<div className="absolute bottom-10 flex flex-col items-center gap-y-4">
+				<div className="">
+					<Image src={icon} alt="Audiobook Player icon" height={80} width={80} priority />
+				</div>
+				<h1 className="text-xl font-medium text-gray-900">Audiobook Player</h1>
 			</div>
-			<h1 className={mergeClasses('absolute bottom-8', 'text-xl font-medium', 'text-gray-900 dark:text-gray-100')}>Audiobook Player</h1>
 		</div>
 	)
 }
