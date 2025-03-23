@@ -1,6 +1,6 @@
 'use client'
 import ChapterProgressBars from '@/components/ChapterProgressBars'
-import PlayerControls from '@/components/PlayerControls'
+import TemporaryAudio from '@/components/TemporaryAudio'
 import { formatList } from '@/library/utilities/browser'
 import { useAudiobooks } from '@/providers/audiobook'
 import Image from 'next/image'
@@ -19,19 +19,19 @@ export default function SpecificAudiobookPage() {
 	if (!audiobook) return notFound()
 
 	return (
-		<div className="w-full p-4">
-			<div className="w-full max-w-5xl grid grid-cols-2 h-full max-h-screen p-4 gap-x-6 mx-auto bg-orange-50 rounded-xl">
-				<div className="col-span-1 flex flex-col justify-between">
+		<div className="w-full h-screen flex flex-col overflow-hidden p-4">
+			<div className="w-full max-w-5xl flex flex-grow overflow-hidden gap-x-6 mx-auto bg-orange-50 rounded-xl py-4 pl-4">
+				<div className="max-w-sm flex flex-col justify-between overflow-y-auto">
 					<div>
 						<h2 className="text-3xl font-medium mb-2 text-zinc-900">{audiobook.titleDisplay}</h2>
-						<p className="text-lg text-zinc-700 mb-6">{formatList([audiobook.writer, audiobook.narrator])}</p>
+						<p className="text-lg text-zinc-700 mb-6 truncate overflow-hidden">{formatList([audiobook.writer, audiobook.narrator])}</p>
 
-						<PlayerControls />
+						<TemporaryAudio />
 					</div>
 
-					<Image src={audiobook.photoData} alt="" className="w-full max-w-md mb-4 rounded-xl" />
+					<Image src={audiobook.photoData} alt="" className="h-auto rounded-xl" />
 				</div>
-				<div className="col-span-1 overflow-y-auto">
+				<div className="w-full overflow-y-auto pr-4">
 					<ChapterProgressBars audiobook={audiobook} />
 				</div>
 			</div>
