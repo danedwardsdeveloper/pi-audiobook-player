@@ -7,9 +7,8 @@ import Image from 'next/image'
 import { notFound, useParams } from 'next/navigation'
 
 type ResolvedParams = { audiobookSlug: string }
-type Params = Promise<ResolvedParams>
 
-export default function SpecificAudiobookPage({ params }: { params: Params }) {
+export default function SpecificAudiobookPage() {
 	const { audiobookSlug } = useParams<ResolvedParams>()
 	const { audiobooks, getAudiobookBySlug } = useAudiobooks()
 
@@ -21,7 +20,7 @@ export default function SpecificAudiobookPage({ params }: { params: Params }) {
 
 	return (
 		<div className="w-full p-4">
-			<div className="w-full max-w-5xl grid grid-cols-2 h-full p-4 gap-x-6 mx-auto bg-orange-50 rounded-xl">
+			<div className="w-full max-w-5xl grid grid-cols-2 h-full max-h-screen p-4 gap-x-6 mx-auto bg-orange-50 rounded-xl">
 				<div className="col-span-1 flex flex-col justify-between">
 					<div>
 						<h2 className="text-3xl font-medium mb-2 text-zinc-900">{audiobook.titleDisplay}</h2>
