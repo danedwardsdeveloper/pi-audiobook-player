@@ -1,7 +1,16 @@
-import { integer, sqliteTable } from 'drizzle-orm/sqlite-core'
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
-export const audiobooks = sqliteTable('audiobooks', {
+export const tracks = sqliteTable('tracks', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
+	name: text('name').notNull().unique(),
+})
+
+export type TrackInsertValues = typeof tracks.$inferInsert
+export type Track = typeof tracks.$inferSelect
+
+export const playHistory = sqliteTable('play_history', {
+	id: integer('id').primaryKey({ autoIncrement: true }),
+	trackId: integer('trackId').references(() => tracks.id),
 })
 
 /*
