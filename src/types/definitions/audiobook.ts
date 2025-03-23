@@ -10,5 +10,6 @@ export interface Audiobook extends Metadata {
 	photoData: PhotoData
 	totalSeconds?: number
 	listenedSeconds?: number
+	files?: string[]
 	chapters?: Chapter[]
 }
