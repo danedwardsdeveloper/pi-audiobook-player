@@ -3,9 +3,12 @@ import type { Audiobook } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function Card({ audiobook }: { audiobook: Audiobook }) {
+export default function BookShelfCard({ audiobook }: { audiobook: Audiobook }) {
 	return (
-		<div className="flex flex-col p-4 bg-slate-100 rounded-xl max-w-sm">
+		<Link
+			href={`/audiobooks/${audiobook.titleSlug}`}
+			className="flex flex-col p-4 rounded-xl max-w-sm bg-orange-50 hover:bg-orange-200 hover:opacity-80 transition-all duration-500"
+		>
 			<Image
 				src={audiobook.photoData.src}
 				alt=""
@@ -19,12 +22,6 @@ export default function Card({ audiobook }: { audiobook: Audiobook }) {
 				<div className="absolute h-2 bg-orange-300 rounded-full w-56 z-10" />
 				<div className="absolute h-2 bg-slate-300 rounded-full w-full" />
 			</div>
-			<div className="flex justify-between">
-				<Link href={`/audiobooks/${audiobook.titleSlug}`} className="block link-primary">
-					Play
-				</Link>
-				<span className="block">More</span>
-			</div>
-		</div>
+		</Link>
 	)
 }
