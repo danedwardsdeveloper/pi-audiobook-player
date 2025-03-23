@@ -2,6 +2,7 @@ import Providers from '@/components/Providers'
 import type { Metadata, Viewport } from 'next'
 
 import './styles.tailwind.css'
+import SplashScreen from '@/components/SplashScreen'
 import type { ReactNode } from 'react'
 
 export const metadata: Metadata = {
@@ -21,7 +22,10 @@ export default function RootLayout({
 	return (
 		<html lang="en-GB" suppressHydrationWarning>
 			<body className="flex flex-col min-h-screen antialiased">
-				<Providers>{children}</Providers>
+				<Providers>
+					<SplashScreen />
+					{children}
+				</Providers>
 			</body>
 		</html>
 	)

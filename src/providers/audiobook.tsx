@@ -9,14 +9,15 @@ interface AudiobookContextType {
 	audiobooks: Audiobook[] | null
 	setAudiobooks: (audiobooks: Audiobook[]) => void
 	getAudiobookBySlug: (slug: string) => Audiobook | null
-	isLoading: boolean
+	isLoadingAudiobooks: boolean
+	setIsLoadingAudiobooks: (isLoadingAudiobooks: boolean) => void
 }
 
 const AudiobookContext = createContext<AudiobookContextType | undefined>(undefined)
 
 export function AudiobookProvider({ children }: { children: React.ReactNode }) {
 	const [audiobooks, setAudiobooks] = useState<Audiobook[] | null>(null)
-	const [isLoading, setIsLoading] = useState(false)
+	const [isLoadingAudiobooks, setIsLoadingAudiobooks] = useState(false)
 
 	function getAudiobookBySlug(slug: string): Audiobook | null {
 		if (!audiobooks) return null
@@ -39,7 +40,7 @@ export function AudiobookProvider({ children }: { children: React.ReactNode }) {
 			} catch (error) {
 				logger.error('Failed to fetch image:', error)
 			} finally {
-				setIsLoading(false)
+				setIsLoadingAudiobooks(false)
 			}
 		}
 
@@ -50,8 +51,8 @@ export function AudiobookProvider({ children }: { children: React.ReactNode }) {
 		audiobooks,
 		setAudiobooks,
 		getAudiobookBySlug,
-		isLoading,
-		setIsLoading,
+		isLoadingAudiobooks,
+		setIsLoadingAudiobooks,
 	}
 
 	return <AudiobookContext.Provider value={value}>{children}</AudiobookContext.Provider>
