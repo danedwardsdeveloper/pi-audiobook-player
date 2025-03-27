@@ -1,5 +1,5 @@
 import logger from '@/library/logger'
-import { getFolders, getMetadata, getPhoto, getTracks } from '@/library/utilities/server'
+import { getFolders, getMetadata, getPhoto, getTracks, insertTracks } from '@/library/utilities/server'
 import type { Audiobook, PhotoData } from '@/types'
 import { type NextRequest, NextResponse } from 'next/server'
 
@@ -17,7 +17,7 @@ export async function GET(_request: NextRequest): Promise<NextResponse<Audiobook
 
 		const promises = folders.map(async (folder) => {
 			try {
-				const [metadata, photo, files] = await Promise.all([getMetadata(folder), getPhoto(folder), getTracks(folder)])
+				const [metadata, photo, files] = await Promise.all([getMetadata(folder), getPhoto(folder), getTracks(folder), insertTracks(folder)])
 
 				if (!metadata || !photo) return null
 
