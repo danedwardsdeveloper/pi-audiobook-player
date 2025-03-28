@@ -1,6 +1,9 @@
 # ToDo
 
--  Get audio duration somehow... This turns out to be really hard!
+Organise start up functions
+
+-  Check for new audiobooks, then conditionally scan for new tracks
+-  Then just get the tracks data from the database
 
 ## Thinking...
 

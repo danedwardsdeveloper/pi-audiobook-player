@@ -1,15 +1,10 @@
+import type { TrackRecord } from '@/library/database/schema'
 import type { Metadata, PhotoData } from '@/types'
 
-export interface Chapter {
-	name: string
-	duration: string
-	progress: number
-}
-
 export interface Audiobook extends Metadata {
+	folderName: string
 	photoData: PhotoData
 	totalSeconds?: number
 	listenedSeconds?: number
-	files?: string[]
-	chapters?: Chapter[]
+	tracks: TrackRecord[]
 }

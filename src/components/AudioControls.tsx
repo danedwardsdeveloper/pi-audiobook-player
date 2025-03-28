@@ -1,28 +1,25 @@
+import type { ProgressInsertValues, TrackRecord } from '@/library/database/schema'
 import logger from '@/library/logger'
 import { useEffect, useRef, useState } from 'react'
 
-export default function TemporaryAudio() {
-	const trackUrl = encodeURI('/media/Emma by Jane Austen/Emma - 01 - Chapter 1.mp3')
+export default function AudioControls({ audiobookName, track }: { audiobookName: string; track: TrackRecord }) {
 	const audioRef = useRef(null)
-
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [currentTime, setCurrentTime] = useState(0)
 	const [duration, setDuration] = useState(0)
 	const progressIntervalRef = useRef(null)
 	const loggingIntervalRef = useRef(null)
 
-	// Set up audio element
+	const trackUrl = encodeURI(`/media/${audiobookName}/${track.name}`)
+
 	useEffect(() => {
 		const audio = audioRef.current
 		if (!audio) return
 
-		// Set up event listeners
 		audio.addEventListener('loadedmetadata', handleLoadMetadata)
 		audio.addEventListener('timeupdate', handleTimeUpdate)
 		audio.addEventListener('ended', handleEnded)
 
-		// Set initial volume
-		// Clean up
 		return () => {
 			audio.removeEventListener('loadedmetadata', handleLoadMetadata)
 			audio.removeEventListener('timeupdate', handleTimeUpdate)
@@ -33,19 +30,21 @@ export default function TemporaryAudio() {
 		}
 	}, [])
 
-	// Handle play/pause state changes
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <run every 2 seconds when playing>
 	useEffect(() => {
-		// Clear any existing interval
 		if (loggingIntervalRef.current) {
 			clearInterval(loggingIntervalRef.current)
 			loggingIntervalRef.current = null
 		}
 
-		// Set up logging interval only if playing
 		if (isPlaying) {
 			loggingIntervalRef.current = setInterval(() => {
-				logger.success('Recorded track progress: ', audioRef.current?.currentTime || 0)
+				const body: ProgressInsertValues = {
+					trackId: track.id,
+					positionSeconds: Math.round(audioRef.current?.currentTime) || 0,
+				}
 
+				logger.debug('Progress: ', body)
 				// Make API call here
 			}, 2000)
 		}
@@ -57,7 +56,6 @@ export default function TemporaryAudio() {
 		}
 	}, [isPlaying])
 
-	// Handlers
 	const handleLoadMetadata = () => {
 		setDuration(audioRef.current.duration)
 	}
@@ -85,8 +83,7 @@ export default function TemporaryAudio() {
 		audioRef.current.currentTime = newTime
 	}
 
-	// Format time as mm:ss
-	const formatTime = (time) => {
+	const formatTime = (time: number) => {
 		const minutes = Math.floor(time / 60)
 		const seconds = Math.floor(time % 60)
 		return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`

@@ -1,6 +1,6 @@
 'use client'
+import AudioControls from '@/components/AudioControls'
 import ChapterProgressBars from '@/components/ChapterProgressBars'
-import TemporaryAudio from '@/components/TemporaryAudio'
 import { formatList } from '@/library/utilities/browser'
 import { useAudiobooks } from '@/providers/audiobook'
 import Image from 'next/image'
@@ -26,8 +26,13 @@ export default function SpecificAudiobookPage() {
 						<h2 className="text-3xl font-medium mb-2 text-zinc-900">{audiobook.titleDisplay}</h2>
 						<p className="text-lg text-zinc-700 mb-6 truncate overflow-hidden">{formatList([audiobook.writer, audiobook.narrator])}</p>
 
-						<TemporaryAudio />
+						<AudioControls
+							audiobookName={audiobook.folderName}
+							track={audiobook.tracks?.[0] || { audiobookId: 1, name: 'test', durationSeconds: 500 }}
+						/>
 					</div>
+
+					<p className="whitespace-pre-wrap">{JSON.stringify(audiobook.tracks)}</p>
 
 					<Image src={audiobook.photoData} alt="" className="h-auto rounded-xl" />
 				</div>

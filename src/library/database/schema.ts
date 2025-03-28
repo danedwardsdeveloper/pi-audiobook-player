@@ -26,3 +26,6 @@ export const progress = sqliteTable('progress', {
 		.primaryKey(),
 	positionSeconds: integer('position_seconds'),
 })
+
+export type ProgressInsertValues = typeof progress.$inferInsert
+export type ProgressRecord = typeof tracks.$inferSelect

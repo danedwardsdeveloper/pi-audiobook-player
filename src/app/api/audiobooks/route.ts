@@ -1,6 +1,9 @@
+import database from '@/library/database/connection'
+import { audiobooks as audiobooksTable, progress, tracks } from '@/library/database/schema'
 import logger from '@/library/logger'
-import { getFolders, getMetadata, getPhoto, getTracks, insertTracks } from '@/library/utilities/server'
+import { getFolders, getMetadata, getPhoto } from '@/library/utilities/server'
 import type { Audiobook, PhotoData } from '@/types'
+import { eq, inArray } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export interface AudiobooksGETresponse {
@@ -17,11 +20,27 @@ export async function GET(_request: NextRequest): Promise<NextResponse<Audiobook
 
 		const promises = folders.map(async (folder) => {
 			try {
-				const [metadata, photo, files] = await Promise.all([getMetadata(folder), getPhoto(folder), getTracks(folder), insertTracks(folder)])
+				const [metadata, photo] = await Promise.all([getMetadata(folder), getPhoto(folder)])
+
+				const [{ audiobookId }] = await database
+					.select({ audiobookId: audiobooksTable.id })
+					.from(audiobooksTable)
+					.where(eq(audiobooksTable.name, folder))
+
+				const tracksData = await database.select().from(tracks).where(eq(tracks.audiobookId, audiobookId))
+
+				const trackIds = tracksData.map((track) => track.id)
+				const progressData = await database.select().from(progress).where(inArray(progress.trackId, trackIds))
+
+				const progressMap = new Map()
+				for (const prog of progressData) {
+					progressMap.set(prog.trackId, prog.positionSeconds)
+				}
 
 				if (!metadata || !photo) return null
 
 				const data: Audiobook = {
+					folderName: folder,
 					titleDisplay: metadata.titleDisplay,
 					titleSlug: metadata.titleSlug,
 					writer: metadata.writer,
@@ -31,7 +50,13 @@ export async function GET(_request: NextRequest): Promise<NextResponse<Audiobook
 						width: photo.width,
 						height: photo.height,
 					},
-					files,
+					tracks: tracksData.map((track) => ({
+						id: track.id,
+						audiobookId: track.audiobookId,
+						name: track.name,
+						durationSeconds: track.durationSeconds,
+						progress: progressMap.get(track.id) || 0,
+					})),
 				}
 
 				return data

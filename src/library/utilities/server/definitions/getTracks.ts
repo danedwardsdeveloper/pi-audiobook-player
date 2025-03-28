@@ -1,10 +1,9 @@
-import fs from 'node:fs'
+import { execSync } from 'node:child_process'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
 import database from '@/library/database/connection'
 import { type TrackInsertValues, audiobooks, tracks } from '@/library/database/schema'
 import logger from '@/library/logger'
-import audioDecode from 'audio-decode'
 import { and, eq, inArray } from 'drizzle-orm'
 
 export async function getTracks(folderName: string): Promise<string[]> {
@@ -27,6 +26,17 @@ export async function getTracks(folderName: string): Promise<string[]> {
 	} catch (error) {
 		logger.error(`Error finding files in ${folderName}:`, error)
 		return []
+	}
+}
+
+function getAudioDuration(filePath: string): number {
+	try {
+		const output = execSync(`afinfo "${filePath}"`).toString()
+		const durationMatch = output.match(/estimated duration: (\d+\.\d+)/)
+		return durationMatch?.[1] ? Number.parseFloat(durationMatch[1]) : 0
+	} catch (error) {
+		logger.error('Error getting audio duration:', error)
+		return 0
 	}
 }
 
@@ -61,20 +71,10 @@ export async function insertTracks(folderName: string): Promise<void> {
 			newTrackNames.map(async (trackName) => {
 				const filePath = path.join(process.cwd(), 'public/media', folderName, trackName)
 
-				const buffer = fs.readFileSync(filePath)
-				let durationSeconds = 0
-
-				try {
-					const audioBuffer = await audioDecode(buffer)
-					durationSeconds = audioBuffer.duration
-				} catch (error) {
-					logger.error('Error decoding audio:', error)
-				}
-
 				return {
 					name: trackName,
 					audiobookId,
-					durationSeconds,
+					durationSeconds: getAudioDuration(filePath),
 				}
 			}),
 		)

@@ -12,6 +12,7 @@
 	},
 	"dependencies": {
 		"@libsql/client": "^0.15.0",
+		"@types/proper-url-join": "^2.1.5",
 		"better-sqlite3": "^11.9.1",
 		"clsx": "^2.1.1",
 		"drizzle-orm": "^0.41.0",
