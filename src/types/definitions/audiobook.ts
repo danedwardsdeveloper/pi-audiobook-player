@@ -4,7 +4,7 @@ import type { Metadata, PhotoData } from '@/types'
 export interface Audiobook extends Metadata {
 	folderName: string
 	photoData: PhotoData
-	totalSeconds?: number
+	totalSeconds: number
 	listenedSeconds?: number
 	tracks: TrackRecord[]
 }
