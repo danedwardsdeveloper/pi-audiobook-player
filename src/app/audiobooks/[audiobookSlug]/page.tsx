@@ -28,12 +28,9 @@ export default function SpecificAudiobookPage() {
 
 						<AudioControls
 							audiobookName={audiobook.folderName}
-							track={audiobook.tracks?.[0] || { audiobookId: 1, name: 'test', durationSeconds: 500 }}
+							track={audiobook.tracks?.[0] || { id: 1, audiobookId: 1, name: 'test', durationSeconds: 500 }}
 						/>
 					</div>
-
-					<p className="whitespace-pre-wrap">{JSON.stringify(audiobook.tracks)}</p>
-
 					<Image src={audiobook.photoData} alt="" className="h-auto rounded-xl" />
 				</div>
 				<div className="w-full overflow-y-auto pr-4">
