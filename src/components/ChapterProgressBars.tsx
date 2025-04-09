@@ -1,6 +1,10 @@
+import { useAudiobooks } from '@/providers/audiobook'
 import type { Audiobook } from '@/types'
 
 export default function ChapterProgressBars({ audiobook }: { audiobook: Audiobook }) {
+	const { isLoadingAudiobooks } = useAudiobooks()
+
+	if (isLoadingAudiobooks) return null
 	if (!audiobook.tracks) return <h2>No chapters found</h2>
 
 	return (
@@ -16,13 +20,13 @@ export default function ChapterProgressBars({ audiobook }: { audiobook: Audioboo
 							)}
 						</div> */}
 
-						<span className="text-sm text-gray-500 w-1/2 text-right">{Math.floor(track.duration / 60)} minutes </span>
+						<span className="text-sm text-gray-500 w-1/2 text-right">{Math.floor(track.durationSeconds / 60)} minutes </span>
 					</div>
 
 					<div className="relative h-3 w-full bg-slate-300 rounded-full overflow-hidden">
 						<div
 							className={`absolute h-full rounded-full ${Math.random() > 0.5 ? 'bg-orange-400' : ''}`}
-							style={{ width: `${(track.progress / track.duration) * 100}%` }}
+							style={{ width: `${(track.progress / track.durationSeconds) * 100}%` }}
 						/>
 					</div>
 				</div>
